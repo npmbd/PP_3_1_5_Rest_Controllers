@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.rest_controller;
+package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
