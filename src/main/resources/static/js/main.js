@@ -45,7 +45,7 @@ function addFormSubmitHandler(e) {
 
 function editUserHandler(e) {
     e.preventDefault();
-    AddOrEditUser(this, 'PUT', '/api/v1/users/update');
+    AddOrEditUser(this, 'PUT', '/api/v1/users');
 }
 
 function AddOrEditUser(form, method, url) {

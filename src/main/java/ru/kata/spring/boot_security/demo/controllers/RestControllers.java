@@ -32,7 +32,7 @@ public class RestControllers {
         return mapper.toDto(userService.getUserById(userId).get());
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<Void> updateUser(@RequestBody UserDto userDto) {
         userService.saveOrUpdate(userDto);
         return ResponseEntity.noContent().build();
