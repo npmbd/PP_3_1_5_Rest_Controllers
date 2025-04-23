@@ -4,7 +4,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.entities.User;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 

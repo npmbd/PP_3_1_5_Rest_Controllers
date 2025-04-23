@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script type="text/javascript" src="../js/main.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -10,45 +11,44 @@
 </head>
 <body>
 <div>
-    <form class="font-weight-bold text-center w-25 mx-auto pt-4" action="#" th:action="@{/registration}"
-          th:object="${userDto}" method="post">
+    <form id="registration" class="font-weight-bold text-center w-25 mx-auto pt-4" method="post">
         <div class="mb-3">
             <label for="newUsername" class="form-label mb-0">Username</label>
-            <input type="text" class="form-control" id="newUsername" th:field="*{username}" autofocus="autofocus"
+            <input type="text" class="form-control" id="newUsername" autofocus="autofocus"
                    name="username" required>
         </div>
         <div class="mb-3">
             <label for="newFirstName" class="form-label mb-0">First Name</label>
-            <input type="text" class="form-control" th:field="*{firstName}" id="newFirstName" name="firstName">
+            <input type="text" class="form-control" id="newFirstName" name="firstName">
         </div>
         <div class="mb-3">
             <label for="newLastName" class="form-label mb-0">Last Name</label>
-            <input type="text" class="form-control" th:field="*{lastName}" id="newLastName" name="lastName">
+            <input type="text" class="form-control" id="newLastName" name="lastName">
         </div>
         <div class="mb-3">
             <label for="newEmail" class="form-label mb-0">Email</label>
-            <input type="email" class="form-control" th:field="*{email}" id="newEmail" name="email">
+            <input type="email" class="form-control" id="newEmail" name="email">
         </div>
         <div class="mb-3">
             <label for="newPhoneNumber" class="form-label mb-0">Phone Number</label>
-            <input type="tel" class="form-control" th:field="*{phoneNumber}" id="newPhoneNumber" name="phoneNumber">
+            <input type="tel" class="form-control" id="newPhoneNumber" name="phoneNumber">
         </div>
         <div class="mb-3">
             <label for="newPassword" class="form-label mb-0">Password</label>
-            <input type="password" class="form-control" th:field="*{password}" id="newPassword" name="password"
+            <input type="password" class="form-control" id="newPassword" name="password"
                    required>
         </div>
         <div class="mb-3">
             <label class="form-label mb-0">Role(s)</label>
             <div class="form-check text-left">
-                <input class="form-check-input" th:field="*{roles}" type="checkbox" value="ROLE_USER" id="newRoleUser"
+                <input class="form-check-input" type="checkbox" value="ROLE_USER" id="newRoleUser"
                        name="roles">
                 <label class="form-check-label font-weight-normal" for="newRoleUser">
                     User
                 </label>
             </div>
             <div class="form-check text-left">
-                <input class="form-check-input" type="checkbox" th:field="*{roles}" value="ROLE_ADMIN" id="newRoleAdmin"
+                <input class="form-check-input" type="checkbox" value="ROLE_ADMIN" id="newRoleAdmin"
                        name="roles">
                 <label class="form-check-label font-weight-normal" for="newRoleAdmin">
                     Admin

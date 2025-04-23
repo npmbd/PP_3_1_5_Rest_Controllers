@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.configs;
+package ru.kata.spring.boot_security.demo.config;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;

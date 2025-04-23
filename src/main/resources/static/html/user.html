@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script type="text/javascript" src="../js/main.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -11,11 +12,10 @@
 <body>
 <nav class="navbar navbar-dark bg-dark">
     <div class="d-flex justify-content-start w-100">
-        <span class="navbar-text h5 font-weight-bold text-white" th:text="${currentUser.username}">Username</span>
+        <span class="navbar-text h5 font-weight-bold text-white" id="username">Username</span>
         <span class="navbar-text h5 text-white ml-3">with role(s):</span>
-        <span class="navbar-text h5 text-white ml-3" th:each="role : ${currentUser.roles}"
-              th:text="${role}">ROLE</span>
-        <form th:action="@{/logout}" method="post" class="ml-auto">
+        <span class="navbar-text h5 text-white ml-3" id="roles">ROLE</span>
+        <form action="/logout" method="post" class="ml-auto">
             <button type="submit" class="btn btn-link navbar-text">Logout</button>
         </form>
     </div>
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="p-3">
-                            <table class="table table-striped">
+                            <table class="table table-striped" id="currentUserTable">
                                 <thead>
                                 <tr>
                                     <th scope="col">Id</th>
@@ -54,18 +54,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:object="${currentUser}">
-                                    <td th:text="*{id}" scope="row"></td>
-                                    <td th:text="*{username}" scope="row"></td>
-                                    <td th:text="*{firstName}" scope="row"></td>
-                                    <td th:text="*{lastName}" scope="row"></td>
-                                    <td th:text="*{email}" scope="row"></td>
-                                    <td th:text="*{phoneNumber}" scope="row"></td>
-                                    <td scope="row">
-                                                <span th:each="role,iterStat : *{roles}"
-                                                      th:text="${role} + (${not iterStat.last} ? ', ' : '')">Role</span>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>

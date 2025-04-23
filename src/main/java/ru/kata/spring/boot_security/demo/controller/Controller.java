@@ -1,6 +1,8 @@
-package ru.kata.spring.boot_security.demo.controllers;
+package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dto.Mapper;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
@@ -10,12 +12,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
-public class RestControllers {
+public class Controller {
 
     private final UserService userService;
     private final Mapper mapper;
 
-    public RestControllers(UserService userService, Mapper mapper) {
+    public Controller(UserService userService, Mapper mapper) {
         this.userService = userService;
         this.mapper = mapper;
     }
@@ -24,6 +26,11 @@ public class RestControllers {
     @ResponseBody
     public List<UserDto> getUsers() {
         return userService.getUserDtos();
+    }
+
+    @GetMapping("/current")
+    public UserDto getUser(@AuthenticationPrincipal UserDetails user) {
+        return userService.getUserDtoByUsername(user.getUsername());
     }
 
     @GetMapping("/{userId}")

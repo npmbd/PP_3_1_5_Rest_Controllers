@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script type="text/javascript" th:src="@{js/main.js}"></script>
-    <!-- Bootstrap CSS -->
+    <script type="text/javascript" src="../js/main.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <title>Admin Page</title>
@@ -14,10 +11,10 @@
 <body>
 <nav class="navbar navbar-dark bg-dark">
     <div class="d-flex justify-content-start w-100">
-        <span class="navbar-text h5 font-weight-bold text-white" th:text="${currentUser.getUsername()}">Email</span>
+        <span class="navbar-text h5 font-weight-bold text-white" id="username">Email</span>
         <span class="navbar-text h5 text-white ml-3">with role(s):</span>
-        <span class="navbar-text h5 text-white ml-3" th:each="role : ${currentUser.roles}" th:text="${role}">ROLE</span>
-        <form th:action="@{/logout}" method="post" class="ml-auto">
+        <span class="navbar-text h5 text-white ml-3" id="roles">ROLE</span>
+        <form action="/logout" method="post" class="ml-auto">
             <button type="submit" class="btn btn-link navbar-text">Logout</button>
         </form>
     </div>
@@ -159,7 +156,7 @@
                         </div>
 
                         <div class="p-3">
-                            <table class="table">
+                            <table class="table" id="currentUserTable">
                                 <thead>
                                 <tr>
                                     <th scope="col">Id</th>
@@ -172,18 +169,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:object="${currentUser}">
-                                    <td th:text="*{id}" scope="row"></td>
-                                    <td th:text="*{username}" scope="row"></td>
-                                    <td th:text="*{firstName}" scope="row"></td>
-                                    <td th:text="*{lastName}" scope="row"></td>
-                                    <td th:text="*{email}" scope="row"></td>
-                                    <td th:text="*{phoneNumber}" scope="row"></td>
-                                    <td scope="row">
-                                                <span th:each="role,iterStat : *{roles}"
-                                                      th:text="${role} + (${not iterStat.last} ? ', ' : '')">Role</span>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>

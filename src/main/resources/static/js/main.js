@@ -1,12 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
-    refreshUserTable();
-    initUserForms();
+    const registrationForm = document.querySelector('#registration');
+    if (registrationForm) {
+        registrationForm.addEventListener('submit', addFormSubmitHandler);
+    } else if (document.querySelector('#usersTableList')) {
+        fillNavbar();
+        refreshUserTable();
+    } else {
+        fillNavbar();
+        fillUserTable();
+    }
 });
+
+function fillNavbar() {
+    const username = document.querySelector('#username');
+    const roles = document.querySelector('#roles');
+    if (username && roles) {
+        fetch('api/v1/users/current')
+            .then(response => response.json())
+            .then(user => {
+                username.textContent = user.username;
+                roles.innerText = user.roles;
+            });
+    }
+}
 
 function initUserForms() {
     const addForm = document.getElementById('addUserForm');
     if (addForm) {
-        addForm.removeEventListener('submit', addFormSubmitHandler);
         addForm.addEventListener('submit', addFormSubmitHandler);
     }
 
@@ -16,7 +36,6 @@ function initUserForms() {
             loadUserData(userId, 'edit');
             const editForm = document.getElementById('editUserForm');
             if (editForm) {
-                editForm.removeEventListener('submit', editUserHandler);
                 editForm.addEventListener('submit', editUserHandler);
             }
         });
@@ -31,24 +50,28 @@ function initUserForms() {
                 deleteForm._handler = function (e) {
                     deleteUser(e, userId);
                 };
-                deleteForm.removeEventListener('submit', deleteForm._handler);
                 deleteForm.addEventListener('submit', deleteForm._handler);
             }
         });
     });
+
+    const userPill = document.querySelector("#v-pills-user-tab");
+    if (userPill) {
+        userPill.addEventListener('click', fillUserTable);
+    }
 }
 
 function addFormSubmitHandler(e) {
     e.preventDefault();
-    AddOrEditUser(this, 'POST', '/api/v1/users');
+    addOrEditUser(this, 'POST', '/api/v1/users');
 }
 
 function editUserHandler(e) {
     e.preventDefault();
-    AddOrEditUser(this, 'PUT', '/api/v1/users');
+    addOrEditUser(this, 'PUT', '/api/v1/users');
 }
 
-function AddOrEditUser(form, method, url) {
+function addOrEditUser(form, method, url) {
     const formData = new FormData(form);
     const userData = {};
 
@@ -63,18 +86,38 @@ function AddOrEditUser(form, method, url) {
         method: method,
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
         },
         body: JSON.stringify(userData)
     })
         .then(response => {
             if (!response.ok) throw new Error('Ошибка сервера');
+            if (form.id === 'registration') {
+                window.location.href = '/login';
+            }
         })
-        .then(data => {
+        .then(() => {
             refreshUserTable();
             $('#editModal').modal('hide');
         })
         .catch(error => showError(error));
+}
+
+function fillUserTable() {
+    fetch('api/v1/users/current')
+        .then(response => response.json())
+        .then(user => {
+            const tbody = document.querySelector('#currentUserTable tbody');
+            tbody.innerHTML = `
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
+                <td>${user.email}</td>
+                <td>${user.phoneNumber}</td>
+                <td>${user.roles}</td>
+            `;
+        });
 }
 
 function deleteUser(e, userId) {
@@ -83,8 +126,7 @@ function deleteUser(e, userId) {
     fetch(`/api/v1/users/${userId}`, {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
+            'Content-Type': 'application/json'
         }
     })
         .then(response => {
@@ -124,6 +166,7 @@ function refreshUserTable() {
         .then(response => response.json())
         .then(users => {
             const tbody = document.querySelector('#usersTableList tbody');
+
             tbody.innerHTML = users.map(user => `
             <tr>
                 <td>${user.id}</td>
@@ -143,6 +186,7 @@ function refreshUserTable() {
                 </td>
             <tr>
             `).join('');
+
             initUserForms();
         })
         .catch(error => showError(error));
